@@ -1,0 +1,3 @@
+https://stackoverflow.com/questions/16183231/jquery-append-and-remove-dynamic-table-row/16183252
+
+https://stackoverflow.com/questions/40707597/how-do-i-sum-total-value-with-dynamic-inputbox

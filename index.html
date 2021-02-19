@@ -1,0 +1,98 @@
+<html>
+<head>
+    <TITLE> Add/Remove dynamic rows in HTML table </TITLE>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+ 
+  <script type="text/javascript">
+$(document).ready(function () {
+    var counter = 1;
+    
+    $("#addrow").on("click", function () {
+        counter++;
+        
+        var newRow = $("<tr>");
+        var cols = "";
+        cols += '<td><input type="text" name="product' + counter + '"/></td>';
+        cols += '<td>$<input type="number" name="price' + counter + '"/></td>';
+        cols += '<td><input type="number" name="qty' + counter + '"/></td>';
+        cols += '<td>$<input type="text" name="linetotal' + counter + '" readonly="readonly"/></td>';
+        cols += '<td><input type="button" class=" deleteRow"  value="Remove"> </td>';
+        newRow.append(cols);
+        
+        $("table.order-list").append(newRow);
+    });
+    
+    $("table.order-list").on("change", 'input[name^="price"], input[name^="qty"]', function (event) {
+        calculateRow($(this).closest("tr"));
+        calculateGrandTotal();
+    });
+    
+    $("table.order-list").on("click", "input.deleteRow", function (event) {
+        $(this).closest("tr").remove();
+        calculateGrandTotal();
+    });
+});
+    
+function calculateRow(row) {
+    var price = +row.find('input[name^="price"]').val();
+    var qty = +row.find('input[name^="qty"]').val();
+    row.find('input[name^="linetotal"]').val((price * qty).toFixed(2));
+}
+    
+function calculateGrandTotal() {
+    var grandTotal = 0;
+    var grandTotalQuantity = 0;
+    $("table.order-list").find('input[name^="linetotal"]').each(function () {
+        grandTotal += +$(this).val();
+    });
+     $("table.order-list").find('input[name^="qty"]').each(function () {
+        grandTotalQuantity += +$(this).val();
+    });
+    $("#grandtotal").text(grandTotal.toFixed(2));
+    $("#grandtotalquantity").text(grandTotalQuantity.toFixed(2));
+}
+</script>
+</head>
+<body>
+     <tr>
+            <td colspan="5" style="text-align: center;">
+                <input type="button" id="addrow" value="Add Product" />
+            </td>
+        </tr>
+ <table class="order-list">
+
+    <thead>
+        <tr><td>Product</td><td>Price</td><td>Qty</td><td>Total</td></tr>
+    </thead>
+    
+    <tbody>
+
+        <tr>
+            <td><input type="text" name="product" /></td>
+            <td>$<input type="number" name="price" /></td>
+            <td><input type="number" name="qty" /></td>
+            <td>$<input type="text" name="linetotal" readonly="readonly" /></td>
+            <td><input type="button" class=" deleteRow"  value="Remove"></td>
+        </tr>
+    </tbody>
+    
+    <tfoot>
+       
+        
+        <tr>
+            <td colspan="2">
+            
+                </td>
+                <td >
+                Grand Total Quantity: $<span id="grandtotalquantity"></span>
+            </td>
+             <td >
+                Grand Total: $<span id="grandtotal"></span>
+                </td>
+
+            
+        </tr>
+    </tfoot>
+</table>
+</body>
+</html>
