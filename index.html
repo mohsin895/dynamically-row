@@ -73,6 +73,12 @@ $(document).ready(function () {
         $(this).closest("tr").remove();
         calculateTotal();
     });
+
+
+    $('input[name="shipping_cost"]').on("input", function() {
+    calculateGrandTotal();
+});
+
 });
     
 function calculateRow(row) {
@@ -98,9 +104,6 @@ function calculateTotal() {
     calculateGrandTotal();
 }
 
-$('input[name="shipping_cost"]').on("input", function() {
-    calculateGrandTotal();
-});
 
 
 function calculateGrandTotal() {
